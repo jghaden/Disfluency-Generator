@@ -6,9 +6,29 @@
 #define HIGHLIGHT_STUTTER		0xC
 #define HIGHLIGHT_INTERJECTION	0xA
 
-void SetColor(int c)
+#define GEN_TYPE_DEFUALT		0
+#define GEN_TYPE_STUTTER		1
+#define GEN_TYPE_INTERJECTION	2
+
+void SetColor(int type)
 {
+	int c;
 	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+
+	switch (type)
+	{
+		case GEN_TYPE_STUTTER:
+			c = HIGHLIGHT_STUTTER;
+			break;
+		case GEN_TYPE_INTERJECTION:
+			c = HIGHLIGHT_INTERJECTION;
+			break;
+		case GEN_TYPE_DEFUALT:
+		default:
+			c = HIGHLIGHT_DEFAULT;
+			break;
+	}
+
 	SetConsoleTextAttribute(hConsole, c);
 }
 
@@ -41,27 +61,32 @@ bool isPunctuation(char ch)
 
 struct word
 {
-	bool isGenerated;
+	
 	std::string s;
+	int type = GEN_TYPE_DEFUALT;
 };
 
 std::string ErrorGenerator(const std::string &s)
 {
 	int r;
 	//Split input sentence into words
-	std::vector<std::string> words;
-	std::string word = "";
+	std::vector<word> words;
+	word w;
+	std::string out = "";
 
 	for (char ch : s)
 	{
 		if (ch == ' ' || isPunctuation(ch))
 		{
-			if(!word.empty())
-				words.push_back(word);
-			word.clear();
+			if (!out.empty())
+			{
+				w.s = out;
+				words.push_back(w);
+			}
+			out.clear();
 		}
 		else
-			word += ch;
+			out += ch;
 	}
 
 	//Randomly pick what error to introduce into the sentence
@@ -75,7 +100,9 @@ std::string ErrorGenerator(const std::string &s)
 			r = rand() % (words.size() % 4 + 1);
 			for (int i = 0; i < r; i++)
 			{
-				words.insert(words.begin() + (rand() % words.size()), INTERJECTIONS[rand() % INTERJECTIONS.size()]);
+				w.type = GEN_TYPE_INTERJECTION;
+				w.s = INTERJECTIONS[rand() % INTERJECTIONS.size()];
+				words.insert(words.begin() + (rand() % words.size()), w);
 			}
 			break;
 	}
@@ -85,7 +112,9 @@ std::string ErrorGenerator(const std::string &s)
 		std::cout << '[';
 		for (int i = 0; i < words.size(); i++)
 		{
-			std::cout << '[' + words[i] + "]";
+			SetColor(words[i].type);
+			std::cout << '[' + words[i].s + "]";
+			SetColor(GEN_TYPE_DEFUALT);
 			if (i < words.size() - 1)
 				std::cout << ',';
 		}
