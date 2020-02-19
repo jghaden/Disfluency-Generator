@@ -19,8 +19,10 @@ constexpr unsigned int hash(const char* s, int off = 0)
 	return !s[off] ? 5381 : (hash(s, off + 1) * 33) ^ s[off];
 }
 
+bool isVerbose = false;
+
 std::string const PUNCTUATION = ".,!?";
-std::vector<std::string> const INTERJECTIONS = { "uh", "um", "oh" };
+std::vector<std::string> const INTERJECTIONS = { "um", "uh", "oh" };
 
 bool isPunctuation(char ch)
 {
@@ -30,7 +32,6 @@ bool isPunctuation(char ch)
 std::string ErrorGenerator(const std::string &s)
 {
 	int r;
-	srand(time(NULL));
 
 	//Split input sentence into words
 	std::vector<std::string> words;
@@ -48,25 +49,31 @@ std::string ErrorGenerator(const std::string &s)
 			word += ch;
 	}
 
-	/*for (int i = 0; i < words.size(); i++)
-	{
-		println('\"' + words[i] + '\"');
-	}
-
-	println("------");*/
-	
 	//Randomly pick what error to introduce into the sentence
-	r = rand() % 1;
+	//r = rand() % 2;
 
-	switch (r)
+	switch (rand() % 2)
 	{
 		//Stutter
 		case 0:
-			break;
 		//Interject
 		case 1:
-
+			words.insert(words.begin() + (rand() % words.size()), INTERJECTIONS[rand() % INTERJECTIONS.size()]);
 			break;
+	}
+
+	if (isVerbose)
+	{
+		std::cout << '[';
+		for (int i = 0; i < words.size(); i++)
+		{
+			std::cout << '[' + words[i] + "]";
+			if (i < words.size() - 1)
+				std::cout << ',';
+		}
+		println("]");
+
+		println("------");
 	}
 
 	return "";
@@ -74,7 +81,9 @@ std::string ErrorGenerator(const std::string &s)
 
 int main(int argc, char** argv)
 {
-	bool flag = false;
+	srand(time(NULL));
+
+	
 
 	std::string s, tmp;
 	
@@ -105,6 +114,10 @@ int main(int argc, char** argv)
 				println("\t-i,-in\t\tInput file for parsing");
 				println("\t-o,-out\t\tOutput file after parsing");
 				exit(0);
+				break;
+			case hash("-v"):
+			case hash("-verbose"):
+				isVerbose = true;
 				break;
 		}
 	}
