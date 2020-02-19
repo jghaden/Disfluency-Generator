@@ -32,7 +32,6 @@ bool isPunctuation(char ch)
 std::string ErrorGenerator(const std::string &s)
 {
 	int r;
-
 	//Split input sentence into words
 	std::vector<std::string> words;
 	std::string word = "";
@@ -50,15 +49,18 @@ std::string ErrorGenerator(const std::string &s)
 	}
 
 	//Randomly pick what error to introduce into the sentence
-	//r = rand() % 2;
-
 	switch (rand() % 2)
 	{
 		//Stutter
 		case 0:
 		//Interject
 		case 1:
-			words.insert(words.begin() + (rand() % words.size()), INTERJECTIONS[rand() % INTERJECTIONS.size()]);
+			//Randomly pick how many interjections to add based on length of sentence
+			r = rand() % (words.size() % 4 + 1);
+			for (int i = 0; i < r; i++)
+			{
+				words.insert(words.begin() + (rand() % words.size()), INTERJECTIONS[rand() % INTERJECTIONS.size()]);
+			}
 			break;
 	}
 
