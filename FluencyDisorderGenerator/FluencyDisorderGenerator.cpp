@@ -94,30 +94,39 @@ std::string ErrorGenerator(const std::string &s)
 	}
 
 	//Randomly pick what error to introduce into the sentence
-	switch (rand() % 2)
-	{
-		//Stutter
-		case 0:
-			//Picks how much stuttering to add based on length of sentence
-			r = words.size() % 4 + 1;
-			for (int i = 0; i < r; i++)
-			{
+	r = rand() % 3;
 
-			}
-			break;
-		//Interject
-		case 1:
-			//Picks how many interjections to add based on length of sentence
-			r = words.size() % 4 + 1;
-			for (int i = 0; i < r; i++)
+	//Stutter
+	if (r == 0 || r == 2)
+	{
+		//Picks how much stuttering to add based on length of sentence
+		r = words.size() % 4 + 1;
+		for (int i = 0; i < r; i++)
+		{
+			do
 			{
-				w.type = GEN_TYPE_INTERJECTION;
-				w.s = INTERJECTIONS[rand() % INTERJECTIONS.size()];
-				words.insert(words.begin() + (rand() % words.size()), w);
-			}
-			break;
+				r = rand() % words.size();
+				w = words[r];
+			} while (w.type != GEN_TYPE_DEFUALT);
+
+			w.type = GEN_TYPE_STUTTER;
+			words.insert(words.begin() + r, w);
+		}
+	}
+	//Interjection
+	if (r == 1 || r == 2)
+	{
+		//Picks how many interjections to add based on length of sentence
+		r = words.size() % 4 + 1;
+		for (int i = 0; i < r; i++)
+		{
+			w.s = INTERJECTIONS[rand() % INTERJECTIONS.size()];
+			w.type = GEN_TYPE_INTERJECTION;
+			words.insert(words.begin() + (rand() % words.size()), w);
+		}
 	}
 
+	//Display the vector of words and highlight the intentional errors
 	if (isVerbose)
 	{
 		SetColor(GetColor(GEN_TYPE_DEFUALT));
