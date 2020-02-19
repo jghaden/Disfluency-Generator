@@ -2,6 +2,16 @@
 
 #define println(x) std::cout << x << std::endl
 
+#define HIGHLIGHT_DEFAULT		0x8
+#define HIGHLIGHT_STUTTER		0xC
+#define HIGHLIGHT_INTERJECTION	0xA
+
+void SetColor(int c)
+{
+	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+	SetConsoleTextAttribute(hConsole, c);
+}
+
 std::string StrToLower(const std::string &s)
 {
 	std::string out = "";
@@ -28,6 +38,12 @@ bool isPunctuation(char ch)
 {
 	return (PUNCTUATION.find(ch) != std::string::npos);
 }
+
+struct word
+{
+	bool isGenerated;
+	std::string s;
+};
 
 std::string ErrorGenerator(const std::string &s)
 {
