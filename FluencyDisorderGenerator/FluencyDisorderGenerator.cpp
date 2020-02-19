@@ -10,10 +10,9 @@
 #define GEN_TYPE_STUTTER		1
 #define GEN_TYPE_INTERJECTION	2
 
-void SetColor(int type)
+int GetColor(int type)
 {
 	int c;
-	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 
 	switch (type)
 	{
@@ -24,11 +23,16 @@ void SetColor(int type)
 			c = HIGHLIGHT_INTERJECTION;
 			break;
 		case GEN_TYPE_DEFUALT:
-		default:
 			c = HIGHLIGHT_DEFAULT;
 			break;
 	}
 
+	return c;
+}
+
+void SetColor(int c)
+{
+	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 	SetConsoleTextAttribute(hConsole, c);
 }
 
@@ -94,10 +98,17 @@ std::string ErrorGenerator(const std::string &s)
 	{
 		//Stutter
 		case 0:
+			//Picks how much stuttering to add based on length of sentence
+			r = words.size() % 4 + 1;
+			for (int i = 0; i < r; i++)
+			{
+
+			}
+			break;
 		//Interject
 		case 1:
-			//Randomly pick how many interjections to add based on length of sentence
-			r = rand() % (words.size() % 4 + 1);
+			//Picks how many interjections to add based on length of sentence
+			r = words.size() % 4 + 1;
 			for (int i = 0; i < r; i++)
 			{
 				w.type = GEN_TYPE_INTERJECTION;
@@ -109,17 +120,20 @@ std::string ErrorGenerator(const std::string &s)
 
 	if (isVerbose)
 	{
+		SetColor(GetColor(GEN_TYPE_DEFUALT));
+
 		std::cout << '[';
 		for (int i = 0; i < words.size(); i++)
 		{
-			SetColor(words[i].type);
+			SetColor(GetColor(words[i].type));
 			std::cout << '[' + words[i].s + "]";
-			SetColor(GEN_TYPE_DEFUALT);
+			SetColor(GetColor(GEN_TYPE_DEFUALT));
 			if (i < words.size() - 1)
 				std::cout << ',';
 		}
 		println("]");
 
+		SetColor(0x7);
 		println("------");
 	}
 
@@ -129,8 +143,6 @@ std::string ErrorGenerator(const std::string &s)
 int main(int argc, char** argv)
 {
 	srand(time(NULL));
-
-	
 
 	std::string s, tmp;
 	
