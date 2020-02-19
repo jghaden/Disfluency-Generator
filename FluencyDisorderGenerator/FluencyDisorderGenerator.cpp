@@ -57,6 +57,7 @@ bool isVerbose = false;
 
 std::string const PUNCTUATION = ".,!?";
 std::vector<std::string> const INTERJECTIONS = { "um", "uh", "oh" };
+std::vector<std::string> const PHRASES = { "yeah but like", "hot diggity dog", "jeepers creepers" };
 
 bool isPunctuation(char ch)
 {
@@ -65,7 +66,6 @@ bool isPunctuation(char ch)
 
 struct word
 {
-	
 	std::string s;
 	int type = GEN_TYPE_DEFUALT;
 };
