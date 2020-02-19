@@ -146,7 +146,16 @@ std::string ErrorGenerator(const std::string &s)
 		println("------");
 	}
 
-	return "";
+	out = "";
+
+	for (int i = 0; i < words.size(); i++)
+	{
+		out += words[i].s;
+		if (i < words.size() - 1)
+			out += ' ';
+	}
+
+	return out;
 }
 
 int main(int argc, char** argv)
@@ -204,7 +213,7 @@ int main(int argc, char** argv)
 				while (!inFile.eof())
 				{
 					getline(inFile, tmp);
-					outFile << '[' << ErrorGenerator(tmp) << "], [" << tmp << ']' << std::endl;
+					outFile << '[' << ErrorGenerator(StrToLower(tmp)) << "], [" << StrToLower(tmp) << ']' << std::endl;
 				}
 			} else
 			{
