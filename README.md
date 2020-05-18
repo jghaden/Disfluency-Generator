@@ -20,7 +20,8 @@ Execute this in the command line:
 ![screenshot](capture/verbose_output.png)
 
 #### Result (in example_out.txt)
-```[the quick brown brown fox um fox jumps over the lazy lazy dog], [the quick brown fox jumps over the lazy dog.]
+```
+[the quick brown brown fox um fox jumps over the lazy lazy dog], [the quick brown fox jumps over the lazy dog.]
 [when uh things break, do you prefer to fix them or replace them], [when things break, do you prefer to fix them or replace them?]
 [if if you had unlimited resources, how would you live your life], [if you had unlimited resources, how would you live your life?]
 [yeah, i think it's a good environment uh for oh learning oh english], [yeah, i think it's a good environment for learning english.]
