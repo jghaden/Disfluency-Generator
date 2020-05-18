@@ -1,3 +1,16 @@
+/**
+  ******************************************************************************
+  * @file    main.cpp
+  * @author  Joshua Haden
+  * @version V0.0.0
+  * @date    18-MAY-2020
+  * @brief   Main program body
+  ******************************************************************************
+  * @attention
+  *
+  *
+  ******************************************************************************
+  */
 #include "pch.h"
 #include "System.h"
 #include "ErrorGenerator.h"
@@ -22,7 +35,6 @@ int main(int argc, char** argv)
 		s = argv[i];
 		s = StrToLower(s);
 
-		//std::cout << hash(s.c_str()) << ":\t" << s << std::endl;
 		switch (hash(s.c_str()))
 		{
 			case hash("--i"):

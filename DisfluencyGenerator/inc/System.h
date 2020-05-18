@@ -1,3 +1,16 @@
+/**
+  ******************************************************************************
+  * @file    System.h
+  * @author  Joshua Haden
+  * @version V0.0.0
+  * @date    18-MAY-2020
+  * @brief   Header for System.cpp
+  ******************************************************************************
+  * @attention
+  *
+  *
+  ******************************************************************************
+  */
 #pragma once
 #include "pch.h"
 
@@ -16,4 +29,3 @@ std::string const PUNCTUATION = ".,!?";
 int GetColor(int type);
 void SetColor(int c);
 std::string StrToLower(const std::string &s);
-bool isPunctuation(char ch);

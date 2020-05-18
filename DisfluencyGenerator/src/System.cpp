@@ -1,3 +1,16 @@
+/**
+  ******************************************************************************
+  * @file    System.cpp
+  * @author  Joshua Haden
+  * @version V0.0.0
+  * @date    18-MAY-2020
+  * @brief   Adds support to highlight changes when executed at the command line
+  ******************************************************************************
+  * @attention
+  *
+  *
+  ******************************************************************************
+  */
 #include "pch.h"
 #include "System.h"
 
@@ -37,9 +50,4 @@ std::string StrToLower(const std::string &s)
 	}
 
 	return out;
-}
-
-bool isPunctuation(char ch)
-{
-	return (PUNCTUATION.find(ch) != std::string::npos);
 }

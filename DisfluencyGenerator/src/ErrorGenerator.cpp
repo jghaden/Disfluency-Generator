@@ -1,9 +1,27 @@
+/**
+  ******************************************************************************
+  * @file    ErrorGenerator.cpp
+  * @author  Joshua Haden
+  * @version V0.0.0
+  * @date    18-MAY-2020
+  * @brief   Adds errors to each sentence given from an input file
+  ******************************************************************************
+  * @attention
+  *
+  *
+  ******************************************************************************
+  */
 #include "pch.h"
 #include "System.h"
 #include "ErrorGenerator.h"
 
 std::vector<std::string> const INTERJECTIONS = { "um", "uh", "oh" };
 std::vector<std::string> const PHRASES = { "yeah but like", "hot diggity dog", "jeepers creepers" };
+
+bool isPunctuation(char ch)
+{
+	return (PUNCTUATION.find(ch) != std::string::npos);
+}
 
 std::string ErrorGenerator(const std::string &s, bool isVerbose)
 {

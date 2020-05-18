@@ -24,7 +24,7 @@
     <ClInclude Include="inc\System.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\DisfluencyGenerator.cpp" />
+    <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\ErrorGenerator.cpp" />
     <ClCompile Include="src\pch.cpp" />
     <ClCompile Include="src\System.cpp" />
