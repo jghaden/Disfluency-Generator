@@ -48,25 +48,25 @@ int main(int argc, char** argv)
 		//std::cout << hash(s.c_str()) << ":\t" << s << std::endl;
 		switch (hash(s.c_str()))
 		{
-			case hash("-i"):
-			case hash("-in"):
+			case hash("--i"):
+			case hash("--in"):
 				if(argv[i + 1] != '\0' && argv[i + 1][0] != '-')
 					inputFileName = argv[i + 1];
 				break;
-			case hash("-o"):
-			case hash("-out"):
+			case hash("--o"):
+			case hash("--out"):
 				if (argv[i + 1] != '\0' && argv[i + 1][0] != '-')
 					outputFileName = argv[i + 1];
 				break;
-			case hash("-h"):
-			case hash("-help"):
-				println("\t-h,-help\tDisplays this help screen");
-				println("\t-i,-in\t\tInput file for parsing");
-				println("\t-o,-out\t\tOutput file after parsing");
+			case hash("--h"):
+			case hash("--help"):
+				println("\t--h,--help\tDisplays this help screen");
+				println("\t--i,--in\t\tInput file for parsing");
+				println("\t--o,--out\t\tOutput file after parsing");
 				exit(0);
 				break;
-			case hash("-v"):
-			case hash("-verbose"):
+			case hash("--v"):
+			case hash("--verbose"):
 				isVerbose = true;
 				break;
 		}
