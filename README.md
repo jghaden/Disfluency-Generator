@@ -9,6 +9,7 @@ Execute this in the command line:
 ## How to read
 
 **Repeated** words such as a stutter are colored **red**
+
 **Interjections** such as "um", "uh", and "oh" are colored **green**
 
 ## Example
