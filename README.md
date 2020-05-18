@@ -6,6 +6,10 @@ Execute this in the command line:
 
 ```Disfluency --[i]n [input_file] --[o]ut [output_file] [--verbose]```
 
+## Example
+
+```Disfluency --in res/example_in.txt --out res/example_out.txt --verbose```
+
 #### Result (via command line)
 ![screenshot](capture/verbose_output.png)
 
