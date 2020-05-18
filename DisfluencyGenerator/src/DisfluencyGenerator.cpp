@@ -1,42 +1,19 @@
 #include "pch.h"
-
-#define println(x) std::cout << x << std::endl
-
-#define HIGHLIGHT_DEFAULT		0x8
-#define HIGHLIGHT_STUTTER		0xC
-#define HIGHLIGHT_INTERJECTION	0xA
-
-#define GEN_TYPE_DEFUALT		0
-#define GEN_TYPE_STUTTER		1
-#define GEN_TYPE_INTERJECTION	2
-
-int GetColor(int type);
-std::string StrToLower(const std::string &s);
-bool isPunctuation(char ch);
-std::string ErrorGenerator(const std::string &s);
+#include "System.h"
+#include "ErrorGenerator.h"
 
 constexpr unsigned int hash(const char* s, int off = 0)
 {
 	return !s[off] ? 5381 : (hash(s, off + 1) * 33) ^ s[off];
 }
 
-bool isVerbose = false;
-std::string const PUNCTUATION = ".,!?";
-std::vector<std::string> const INTERJECTIONS = { "um", "uh", "oh" };
-std::vector<std::string> const PHRASES = { "yeah but like", "hot diggity dog", "jeepers creepers" };
-
-struct word
-{
-	std::string s;
-	int type = GEN_TYPE_DEFUALT;
-};
-
 int main(int argc, char** argv)
 {
 	srand(time(NULL));
 
+	bool isVerbose = false;
+
 	std::string s, tmp;
-	
 	std::string inputFileName;
 	std::string outputFileName;
 
@@ -86,7 +63,7 @@ int main(int argc, char** argv)
 				while (!inFile.eof())
 				{
 					getline(inFile, tmp);
-					outFile << '[' << ErrorGenerator(StrToLower(tmp)) << "], [" << StrToLower(tmp) << ']' << std::endl;
+					outFile << '[' << ErrorGenerator(StrToLower(tmp), isVerbose) << "], [" << StrToLower(tmp) << ']' << std::endl;
 				}
 			} else
 			{
@@ -104,135 +81,4 @@ int main(int argc, char** argv)
 	}
 
 	return 0;
-}
-
-int GetColor(int type)
-{
-	int c;
-
-	switch (type)
-	{
-	case GEN_TYPE_STUTTER:
-		c = HIGHLIGHT_STUTTER;
-		break;
-	case GEN_TYPE_INTERJECTION:
-		c = HIGHLIGHT_INTERJECTION;
-		break;
-	case GEN_TYPE_DEFUALT:
-		c = HIGHLIGHT_DEFAULT;
-		break;
-	}
-
-	return c;
-}
-
-void SetColor(int c)
-{
-	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
-	SetConsoleTextAttribute(hConsole, c);
-}
-
-std::string StrToLower(const std::string &s)
-{
-	std::string out = "";
-
-	for (int i = 0; i < s.length(); i++)
-	{
-		out += tolower(s[i]);
-	}
-
-	return out;
-}
-
-bool isPunctuation(char ch)
-{
-	return (PUNCTUATION.find(ch) != std::string::npos);
-}
-
-std::string ErrorGenerator(const std::string &s)
-{
-	int r;
-	//Split input sentence into words
-	std::vector<word> words;
-	word w;
-	std::string out = "";
-
-	for (char ch : s)
-	{
-		if (ch == ' ' || isPunctuation(ch))
-		{
-			if (!out.empty())
-			{
-				w.s = out;
-				words.push_back(w);
-			}
-			out.clear();
-		}
-		else
-			out += ch;
-	}
-
-	//Randomly pick what error to introduce into the sentence
-	r = rand() % 3;
-
-	//Stutter
-	if (r == 0 || r == 2)
-	{
-		//Picks how much stuttering to add based on length of sentence
-		r = words.size() % 4 + 1;
-		for (int i = 0; i < r; i++)
-		{
-			do
-			{
-				r = rand() % words.size();
-				w = words[r];
-			} while (w.type != GEN_TYPE_DEFUALT);
-
-			w.type = GEN_TYPE_STUTTER;
-			words.insert(words.begin() + r, w);
-		}
-	}
-	//Interjection
-	if (r == 1 || r == 2)
-	{
-		//Picks how many interjections to add based on length of sentence
-		r = words.size() % 4 + 1;
-		for (int i = 0; i < r; i++)
-		{
-			w.s = INTERJECTIONS[rand() % INTERJECTIONS.size()];
-			w.type = GEN_TYPE_INTERJECTION;
-			words.insert(words.begin() + (rand() % words.size()), w);
-		}
-	}
-
-	//Display the vector of words and highlight the intentional errors
-	if (isVerbose)
-	{
-		SetColor(GetColor(GEN_TYPE_DEFUALT));
-
-		std::cout << '[';
-		for (int i = 0; i < words.size(); i++)
-		{
-			SetColor(GetColor(words[i].type));
-			std::cout << '[' + words[i].s + "]";
-			SetColor(GetColor(GEN_TYPE_DEFUALT));
-			if (i < words.size() - 1)
-				std::cout << ',';
-		}
-		println("]");
-
-		SetColor(0x7);
-		println("------");
-	}
-
-	out = "";
-
-	for (int i = 0; i < words.size(); i++)
-	{
-		out += words[i].s;
-		if (i < words.size() - 1)
-			out += ' ';
-	}
-
-	return out;
 }

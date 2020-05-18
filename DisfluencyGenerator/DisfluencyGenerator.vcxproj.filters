@@ -12,12 +12,24 @@
     <ClInclude Include="inc\pch.h">
       <Filter>inc</Filter>
     </ClInclude>
+    <ClInclude Include="inc\System.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\ErrorGenerator.h">
+      <Filter>inc</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\DisfluencyGenerator.cpp">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="src\pch.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\System.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ErrorGenerator.cpp">
       <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>
