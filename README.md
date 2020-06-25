@@ -1,5 +1,7 @@
 # Disfluency Generator
-A C++ program that parses a file containing a list of sentences and purposefully adds errors to generate a data set for an LSTM.
+A C++ program that parses a file containing a list of sentences and purposefully adds errors to generate a data set for a transformer network.
+
+The newly trained transformer network will be used to drive a voice assistant that is able to filter out spoken errors.
 
 ## How to use
 Execute this in the command line:
